@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>Maintenance Call Assistant</title>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+ <style>
+   :root {
+     --bg: #0d0d0d;
+     --panel: rgba(30, 30, 30, 0.7);
+     --text: #e0e0e0;
+     --border: #333;
+     --highlight: #00bfff;
+     --shadow: rgba(0, 0, 0, 0.3);
+     --blur: 20px;
+   }
+   * {
+     font-family: 'Inter', sans-serif;
+     box-sizing: border-box;
+   }
+   body {
+     background-color: var(--bg);
+     color: var(--text);
+     margin: 0;
+     padding: 0;
+     height: 100vh;
+     display: flex;
+     flex-direction: row;
+   }
+   #leftPanel {
+     flex: 1;
+     padding: 30px;
+     display: flex;
+     flex-direction: column;
+   }
+   #rightPanel {
+     flex: 1;
+     padding: 30px;
+     overflow-y: auto;
+     border-left: 1px solid var(--border);
+     display: flex;
+     flex-direction: column;
+   }
+   h1 {
+     font-size: 28px;
+     font-weight: 600;
+     margin-bottom: 20px;
+   }
+   label {
+     margin-top: 10px;
+     font-size: 14px;
+   }
+   input, select, textarea {
+     width: 100%;
+     padding: 10px;
+     margin-top: 5px;
+     border-radius: 8px;
+     border: 1px solid var(--border);
+     background: var(--panel);
+     color: var(--text);
+     outline: none;
+   }
+   .button-row {
+     display: flex;
+     gap: 10px;
+     margin-top: 20px;
+   }
+   button {
+     flex: 1;
+     padding: 12px;
+     font-weight: bold;
+     font-size: 14px;
+     border-radius: 10px;
+     border: none;
+     cursor: pointer;
+     background-color: var(--highlight);
+     color: #fff;
+     box-shadow: 0 0 12px var(--highlight);
+     transition: all 0.3s ease;
+   }
+   button:hover {
+     transform: scale(1.05);
+     box-shadow: 0 0 20px var(--highlight);
+   }
+   #historyPanel, #scriptPanel, #nonBasicScriptPanel {
+     background: var(--panel);
+     border: 1px solid var(--border);
+     padding: 15px;
+     border-radius: 10px;
+     margin-top: 8px;
+     margin-bottom: 20px;
+     display: none;
+     overflow-y: auto;
+     backdrop-filter: blur(var(--blur));
+     max-height: 600px;
+   }
+   .historyItem {
+     margin-bottom: 10px;
+     padding: 10px;
+     border-bottom: 1px solid var(--border);
+   }
+   .scriptSection {
+     margin-bottom: 15px;
+   }
+   .scriptSection h4 {
+     font-size: 16px;
+     color: var(--highlight);
+     border-bottom: 1px solid var(--border);
+     padding-bottom: 3px;
+   }
+   pre, ul, p {
+     font-family: 'SF Mono', 'Courier New', monospace;
+     font-size: 14px;
+     color: #ccc;
+   }
+   #notesSection {
+     margin-top: auto;
+   }
+   #notes {
+     width: 100%;
+     height: 100px;
+     resize: vertical;
+     border-radius: 8px;
+     border: 1px solid var(--border);
+     background: var(--panel);
+     color: var(--text);
+     padding: 10px;
+     margin-top: 10px;
+   }
+ </style>
+</head>
+<body class="dark">
+ <div id="leftPanel">
+   <h1>Maintenance Call Assistant</h1>
+   <form>
+     <label>Community Name: <input id="community" /></label>
+     <label>Unit Number: <input id="unit" /></label>
+     <label>Resident Name: <input id="name" /></label>
+     <label>Phone Number: <input id="phone" /></label>
+     <label>Issue Description:<textarea id="issue"></textarea></label>
+     <label>Call Type:
+       <select id="type">
+         <option>Emergency</option>
+         <option>Non-Emergency</option>
+         <option>Resolved</option>
+         <option>Completed</option>
+       </select>
+     </label>
+     <div class="button-row">
+    <button type="button" onclick="copyInfo()">Copy Info</button>
+        <button 
+          type="button" 
+          onclick="undoClear()" 
+          style="background-color: orange; box-shadow: 0 0 12px orange;">
+          Undo
+        </button>
+      </div>
+    </form>
+  </div>
+
+ <div id="rightPanel">
+   <div class="button-row">
+     <button onclick="toggleScript()">View Script</button>
+     <button onclick="toggleNonBasicScript()">Non-Basic Calls Script</button>
+     <button onclick="toggleHistory()">View History</button>
+   </div>
+
+
+   <div id="scriptPanel">
+     <h3>📞 Call Handling Script</h3>
+     <div class="scriptSection">
+       <h4>Starting the Call</h4>
+       <p>“Thank you for calling the maintenance line. This is [name], How may I assist you today?”</p>
+     </div>
+     <div class="scriptSection">
+       <h4>Assessing the Situation</h4>
+       <p>“I’m very sorry to hear that. Can I get a little more information before we get started?”</p>
+     </div>
+     <div class="scriptSection">
+       <h4>Collecting Information</h4>
+       <ul>
+         <li>Unit Number</li>
+
+
+         <li>Community Name</li>
+         <li>Full Name</li>
+         <li>Contact Number</li>
+       </ul>
+     </div>
+     <div class="scriptSection">
+       <h4>Determining the Emergency</h4>
+       <p>“May I place you on a brief hold while I document that?”</p>
+     </div>
+     <div class="scriptSection">
+       <h4>Mitigating / Solving the Issue</h4>
+       <p><strong>Emergency:</strong> “Let’s go over a few things to help before escalation.”</p>
+       <p><strong>Non-Emergency:</strong> “Per protocol, this isn’t an emergency. I’d be happy to assist now.”</p>
+     </div>
+     <div class="scriptSection">
+       <h4>Ending the Call</h4>
+       <p><strong>Emergency:</strong> “Technician will call you within the hour.”</p>
+       <p><strong>Non-Emergency:</strong> “Work order submitted. We’ll follow up during business hours.”</p>
+       <p><strong>Resolved:</strong> “Glad we could assist. Don’t hesitate to reach out.”</p>
+       <p><strong>Other:</strong> “Please call again if you need anything else.”</p>
+     </div>
+   </div>
+   <div id="nonBasicScriptPanel">
+     <h3>🔍 Non-Basic Call Script</h3>
+     <div class="scriptSection">
+       <h4>911 (Fire, Flood, Blood)</h4>
+       <p>• Sorry to hear you're dealing with that. Please hang up immediately and call 911.</p>
+       <h4>Irate/angry/rude resident</h4>
+       <p><strong>If someone is yelling/using profanity:</strong><br>
+       • I'm sorry you're dealing with this – I'm here to assist you. If you could talk to me in a professional manner we'll get this sorted for you. If you are not able to, I will unfortunately not be able to continue this call.</p>
+       <p><strong>If someone is making up another emergency:</strong><br>
+       • I'm sorry that you're dealing with this. But unfortunately your reported issue is not deemed an emergency by your property. Unfortunately if we are unable to continue this call in a professional manner, I will need to disconnect.</p>
+       <p><strong>If you need to end the call:</strong><br>
+       • Unfortunately because of the way we're communicating, I won't be able to continue to assist you and will be disconnecting the call. If you would like to call back later, we would be happy to assist. Goodbye.</p>
+       <h4>Resident not contacted by OSS after escalation</h4>
+       <p>• Can I put you on a brief hold while I look up any information on the previous ticket?<br>
+       • I can see that the technician has not reached out; I will call your property team directly. Otherwise, I can take note of your phone number and give you a call back with an update shortly.</p>
+       <h4>Resident calls back about non-emergency issue</h4>
+       <p>• I'm sorry, your issue is not deemed an emergency by your property. I've already put in a ticket for this issue and your onsite team will address it as soon as they can during regular business hours.</p>
+     </div>
+   </div>
+
+
+   <div id="historyPanel"></div>
+
+
+   <div id="notesSection">
+     <label for="notes">Notes:</label>
+     <textarea id="notes" placeholder="Type any notes here..."></textarea>
+     <button onclick="clearNotes()">Clear Notes</button>
+   </div>
+ </div>
+
+
+ <script src="renderer.js"></script>
+</body>
+</html>

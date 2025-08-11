@@ -2,12 +2,13 @@
   "name": "maintenance-call-assistantv2",
   "version": "1.0.0",
   "description": "Temporary call‐logging app",
-  "main": "main.js",          
+  "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^25.0.0"      
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
   },
   "build": {
     "appId": "com.example.maintenancecalls",
@@ -22,5 +23,9 @@
         "portable"
       ]
     }
+  },
+  "author": "Noel Gutierrez",
+  "dependencies": {
+    "electron-updater": "^6.6.2"
   }
 }

@@ -4,7 +4,8 @@
   "description": "Temporary call‐logging app",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "devDependencies": {
     "electron": "^37.2.6",
@@ -23,7 +24,13 @@
         "portable"
       ]
     },
-    "publish": "[{\"provider\":\"github\",\"owner\":\"Ngutierrez27\",\"repo\":\"Maintenance-Calls-AssistantV2\"}]"
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Ngutierrez27",
+        "repo": "Maintenance-Calls-AssistantV2"
+      }
+    ]
   },
   "author": "Noel Gutierrez",
   "dependencies": {

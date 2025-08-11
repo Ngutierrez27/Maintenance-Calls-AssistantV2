@@ -22,7 +22,8 @@
         "nsis",
         "portable"
       ]
-    }
+    },
+    "publish": "[{\"provider\":\"github\",\"owner\":\"Ngutierrez27\",\"repo\":\"Maintenance-Calls-AssistantV2\"}]"
   },
   "author": "Noel Gutierrez",
   "dependencies": {

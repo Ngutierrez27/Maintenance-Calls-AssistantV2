@@ -132,12 +132,24 @@
      filter: brightness(1.18) saturate(1.05);
      box-shadow: 0 0 20px var(--highlight);
    }
+   /* Bigger, easier-to-click SOP link */
    .small-link {
-     font-size: 13px;
+     display: inline-block;
+     font-size: 16px;
+     font-weight: 600;
+     line-height: 1.2;
+     padding: 8px 12px;
+     border-radius: 8px;
      color: var(--highlight);
      text-decoration: none;
+     background: rgba(30, 30, 30, 0.7);
+     border: 1px solid var(--border);
+     box-shadow: 0 0 12px var(--highlight);
    }
-   .small-link:hover { text-decoration: underline; }
+   .small-link:hover {
+     text-decoration: none;
+     filter: brightness(1.12);
+   }
  </style>
 </head>
 <body class="dark">

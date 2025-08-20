@@ -2,25 +2,57 @@
   "name": "maintenance-call-assistantv2",
   "version": "1.0.0",
   "description": "Temporary call‐logging app",
-  "main": "main.js",          
+  "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "dist": "electron-builder --publish=never"
   },
   "devDependencies": {
-    "electron": "^25.0.0"      
+    "electron": "^25.0.0",
+    "electron-builder": "^26.0.12"
   },
   "build": {
     "appId": "com.example.maintenancecalls",
     "productName": "Maintenance Call Assistant",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "renderer.js",
+      "index.html",
+      "package.json"
+    ],
     "mac": {
-      "icon": "assets/icons/mac/icon.icns"
+      "target": [
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "artifactName": "Maintenance Call Assistant-${version}-mac.zip"
     },
     "win": {
-      "icon": "assets/icons/win/icon.ico",
       "target": [
-        "nsis",
-        "portable"
-      ]
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Maintenance Call Assistant Setup ${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://example.com/releases/"
     }
   }
 }

@@ -104,6 +104,13 @@ function buildAppMenu() {
 app.whenReady().then(() => {
   createWindow();
   buildAppMenu();
+  // Nudge GitHub to accept our request (works around occasional 406 from /releases/latest)
+  autoUpdater.requestHeaders = {
+    Accept: 'application/json, text/html, application/octet-stream, */*'
+  };
+
+  // Optional: only needed if your latest is marked “Pre-release”
+  autoUpdater.allowPrerelease = false; // set to true if you publish pre-releases on purpose
   // Only check for updates in packaged app (not during `npm start`)
   if (app.isPackaged) {
     autoUpdater.checkForUpdatesAndNotify();

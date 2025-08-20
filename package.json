@@ -19,7 +19,8 @@
     "appId": "com.example.maintenancecalls",
     "productName": "Maintenance Call Assistant",
     "mac": {
-      "icon": "assets/icons/mac/icon.icns"
+      "icon": "assets/icons/mac/icon.icns",
+      "target": ["dmg", "zip"]
     },
     "win": {
       "icon": "assets/icons/win/icon.ico"

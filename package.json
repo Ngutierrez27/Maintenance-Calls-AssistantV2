@@ -1,6 +1,6 @@
 {
   "name": "maintenance-call-assistantv2",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Temporary call-logging app",
   "main": "main.js",
   "author": "Noel Gutierrez",
@@ -20,7 +20,10 @@
     "productName": "Maintenance Call Assistant",
     "mac": {
       "icon": "assets/icons/mac/icon.icns",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "win": {
       "icon": "assets/icons/win/icon.ico"

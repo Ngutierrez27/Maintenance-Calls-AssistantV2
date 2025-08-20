@@ -127,6 +127,17 @@
      padding: 10px;
      margin-top: 10px;
    }
+   /* active state for toggle buttons */
+   button.toggle-on {
+     filter: brightness(1.18) saturate(1.05);
+     box-shadow: 0 0 20px var(--highlight);
+   }
+   .small-link {
+     font-size: 13px;
+     color: var(--highlight);
+     text-decoration: none;
+   }
+   .small-link:hover { text-decoration: underline; }
  </style>
 </head>
 <body class="dark">
@@ -155,15 +166,24 @@
           Undo
         </button>
       </div>
+
+      <div style="margin-top: 8px;">
+        <a class="small-link"
+           href="#"
+           onclick="openGoogleSheet(); return false;"
+           aria-label="Open SOP (Google Sheet) in your browser">
+          SOP Link ↗
+        </a>
+      </div>
     </form>
   </div>
 
  <div id="rightPanel">
    <div class="button-row">
-     <button onclick="toggleScript()">View Script</button>
-     <button onclick="toggleNonBasicScript()">Non-Basic Calls Script</button>
-     <button onclick="toggleHistory()">View History</button>
-   </div>
+  <button id="btnScript"    onclick="toggleScript()"        aria-pressed="false">View Script</button>
+  <button id="btnNonBasic"  onclick="toggleNonBasicScript()" aria-pressed="false">Non-Basic Calls Script</button>
+  <button id="btnHistory"   onclick="toggleHistory()"        aria-pressed="false">View History</button>
+</div>
 
 
    <div id="scriptPanel">

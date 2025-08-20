@@ -1,11 +1,15 @@
 {
   "name": "maintenance-call-assistantv2",
   "version": "1.0.1",
-  "description": "Temporary call‐logging app",
+  "description": "Temporary call-logging app",
   "main": "main.js",
+  "author": "Noel Gutierrez",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "electron": "^37.2.6",
@@ -14,26 +18,10 @@
   "build": {
     "appId": "com.example.maintenancecalls",
     "productName": "Maintenance Call Assistant",
-    "mac": {
-      "icon": "assets/icons/mac/icon.icns"
-    },
-    "win": {
-      "icon": "assets/icons/win/icon.ico",
-      "target": [
-        "nsis",
-        "portable"
-      ]
-    },
+    "mac": { "icon": "assets/icons/mac/icon.icns" },
+    "win": { "icon": "assets/icons/win/icon.ico" },
     "publish": [
-      {
-        "provider": "github",
-        "owner": "Ngutierrez27",
-        "repo": "Maintenance-Calls-AssistantV2"
-      }
+      { "provider": "github", "owner": "Ngutierrez27", "repo": "Maintenance-Calls-AssistantV2" }
     ]
-  },
-  "author": "Noel Gutierrez",
-  "dependencies": {
-    "electron-updater": "^6.6.2"
   }
 }

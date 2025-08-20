@@ -1,6 +1,6 @@
 {
   "name": "maintenance-call-assistantv2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Temporary call-logging app",
   "main": "main.js",
   "author": "Noel Gutierrez",

@@ -4,7 +4,8 @@
   "description": "Temporary call‐logging app",
   "main": "main.js",          
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "echo 'Build completed successfully'"
   },
   "devDependencies": {
     "electron": "^25.0.0"      

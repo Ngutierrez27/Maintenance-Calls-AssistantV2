@@ -1,9 +1,12 @@
 # dependencies
 /node_modules/
 
-# build folders
-/dist/
-/build/
+# build folders (exclude specific files we want to track)
+/dist/*
+!/dist/*.zip
+!/dist/*.exe
+!/dist/*.yml
+!/dist/*.md
 
 # logs
 npm-debug.log*

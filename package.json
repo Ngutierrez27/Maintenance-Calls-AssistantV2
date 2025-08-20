@@ -32,7 +32,8 @@
       {
         "provider": "github",
         "owner": "Ngutierrez27",
-        "repo": "Maintenance-Calls-AssistantV2"
+        "repo": "Maintenance-Calls-AssistantV2",
+        "releaseType": "release"
       }
     ]
   }

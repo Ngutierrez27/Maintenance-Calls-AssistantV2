@@ -16,6 +16,7 @@
     "electron-builder": "^26.0.12"
   },
   "build": {
+    "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
     "appId": "com.example.maintenancecalls",
     "productName": "Maintenance Call Assistant",
     "mac": {

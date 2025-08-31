@@ -2,8 +2,10 @@ const { app, BrowserWindow, Menu, dialog } = require('electron');
 const { autoUpdater }   = require('electron-updater');
 const path             = require('path');
 
-
 let mainWindow;
+
+const SOP_SHEET_URL =
+  'https://docs.google.com/spreadsheets/d/1-WtCTPVObLauvUkp7TxoOvkN_lu6M7_LQjqdRWXhfQI/edit?gid=1978167661#gid=1978167661';
 
 function createWindow () {
  mainWindow = new BrowserWindow({
@@ -21,6 +23,9 @@ function createWindow () {
  // Right-click menu: Copy / Cut / Paste / Select All
  mainWindow.webContents.on('context-menu', (event, params) => {
    const menu = Menu.buildFromTemplate([
+     // NEW on top:
+     { label: 'Copy Compact Line', click: () => mainWindow.webContents.send('copy-compact') },
+     { type: 'separator' },
      { role: 'cut',    enabled: params.editFlags.canCut },
      { role: 'copy',   enabled: params.editFlags.canCopy },
      { role: 'paste',  enabled: params.editFlags.canPaste },
@@ -51,7 +56,14 @@ function buildAppMenu() {
       submenu: [
         { role: 'undo' }, { role: 'redo' }, { type: 'separator' },
         { role: 'cut' }, { role: 'copy' }, { role: 'paste' },
-        { type: 'separator' }, { role: 'selectAll' }
+        { type: 'separator' }, { role: 'selectAll' },
+        { type: 'separator' },
+        // NEW: trigger compact line
+        {
+          label: 'Copy Compact Line',
+          accelerator: 'CmdOrCtrl+Shift+C',
+          click: () => mainWindow.webContents.send('copy-compact')
+        }
       ]
     },
 
@@ -99,6 +111,21 @@ function buildAppMenu() {
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
+}
+
+function sendKey(win, key, modifiers = []) {
+  const wc = win.webContents;
+  wc.sendInputEvent({ type: 'keyDown', keyCode: key, modifiers });
+  wc.sendInputEvent({ type: 'keyUp',   keyCode: key, modifiers });
+}
+
+function sendKeySequence(win, steps, gap = 80) {
+  let t = 0;
+  steps.forEach(({ key, modifiers = [] }) => {
+    setTimeout(() => sendKey(win, key, modifiers), t);
+    t += gap;
+  });
+  return t;
 }
 
 app.whenReady().then(() => {

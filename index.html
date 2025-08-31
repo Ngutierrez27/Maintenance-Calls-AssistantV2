@@ -134,22 +134,141 @@
    }
    /* Bigger, easier-to-click SOP link */
    .small-link {
-     display: inline-block;
+     display: block;                  /* makes them full-width like buttons */
+     width: 100%;                     /* all buttons same width */
+     text-align: center;              /* center the text */
      font-size: 17px;
      font-weight: 600;
-     line-height: 1.2;
-     padding: 8px 12px;
+     line-height: 1.4;
+     padding: 12px 0;                 /* consistent height */
      border-radius: 8px;
      color: var(--highlight);
      text-decoration: none;
      background: rgba(30, 30, 30, 0.7);
      border: 1px solid var(--border);
      box-shadow: 0 0 12px var(--highlight);
+     margin-top: 12px;                /* spacing between each button */
    }
    .small-link:hover {
      text-decoration: none;
      filter: brightness(1.12);
    }
+   /* Red variation of small-link */
+   .red-link {
+     color: #ff4c4c;               /* red letters */
+     border: 1px solid var(--border); /* same outline as SOP */
+     box-shadow: 0 0 12px #ff4c4c; /* red hue */
+   }
+   .red-link:hover {
+     box-shadow: 0 0 20px #ff4c4c; /* stronger glow on hover */
+     filter: brightness(1.12);
+   }
+   /* Yellow text + yellow glow */
+   .yellow-link {
+     color: #ffd700;                 /* golden yellow letters */
+     border: 1px solid var(--border); /* same outline as SOP */
+     box-shadow: 0 0 12px #ffd700;   /* yellow hue */
+   }
+   .yellow-link:hover {
+     box-shadow: 0 0 20px #ffd700;   /* stronger glow on hover */
+     filter: brightness(1.12);
+   }
+
+   /* containers */
+   .link-group { margin-top: 12px; }
+
+   /* make the main link a full-width button with room for the chevron */
+   .small-link {
+     display: block;
+     width: 100%;
+     text-align: center;
+     font-size: 17px;
+     font-weight: 600;
+     line-height: 1.4;
+     padding: 12px 44px 12px 12px; /* right padding for the chevron */
+     border-radius: 8px;
+     color: var(--highlight);
+     text-decoration: none;
+     background: rgba(30, 30, 30, 0.7);
+     border: 1px solid var(--border);
+     box-shadow: 0 0 12px var(--highlight);
+     position: relative;
+   }
+
+   /* variants already agreed */
+   .red-link {
+     color: #ff4c4c;               /* red letters */
+     border: 1px solid var(--border);
+     box-shadow: 0 0 12px #ff4c4c; /* red glow */
+   }
+   .red-link:hover { box-shadow: 0 0 20px #ff4c4c; filter: brightness(1.12); }
+
+   .yellow-link {
+     color: #ffd700;               /* yellow letters */
+     border: 1px solid var(--border);
+     box-shadow: 0 0 12px #ffd700; /* yellow glow */
+   }
+   .yellow-link:hover { box-shadow: 0 0 20px #ffd700; filter: brightness(1.12); }
+
+   /* the tiny chevron "button within the button" */
+   .small-link .chevron {
+     position: absolute;
+     right: 6px;
+     top: 6px;
+     bottom: 6px;
+     width: 32px;
+     border-radius: 6px;
+     background: rgba(0,0,0,0.15);
+     border: 1px solid var(--border);
+     color: inherit;
+     cursor: pointer;
+     font-size: 16px;
+     font-weight: 700;
+     /* override global button look */
+     box-shadow: none;
+     transition: filter 0.2s ease;
+   }
+   .small-link .chevron:hover { filter: brightness(1.12); }
+
+   /* dropdown with raw link + copy */
+   .link-dropdown {
+     display: none;
+     margin-top: 6px;
+     background: var(--panel);
+     border: 1px dashed var(--border);
+     border-radius: 8px;
+     padding: 8px;
+   }
+   .link-dropdown.show { display: block; }
+
+   .copy-row {
+     display: flex;
+     gap: 8px;
+     align-items: center;
+   }
+
+   .raw-link {
+     font-family: 'SF Mono', 'Courier New', monospace;
+     font-size: 13px;
+     color: #ccc;
+     user-select: all;
+     overflow-wrap: anywhere;
+     flex: 1 1 auto;
+   }
+
+   /* small copy button (override global button) */
+   .copy-btn {
+     padding: 6px 10px;
+     font-weight: 600;
+     font-size: 12px;
+     border-radius: 6px;
+     border: 1px solid var(--border);
+     background: rgba(30,30,30,0.6);
+     color: var(--text);
+     box-shadow: none;
+     cursor: pointer;
+   }
+   .copy-btn:hover { filter: brightness(1.1); }
  </style>
 </head>
 <body class="dark">
@@ -179,13 +298,60 @@
         </button>
       </div>
 
+      <!-- LINK BUTTONS with dropdown copy -->
       <div style="margin-top: 24px;">
-        <a class="small-link"
-           href="#"
-           onclick="openGoogleSheet(); return false;"
-           aria-label="Open SOP (Google Sheet) in your browser">
-          SOP Link ↗
-        </a>
+
+        <!-- SOP -->
+        <div class="link-group">
+          <div class="small-link" role="button" tabindex="0" onclick="openSOP()">
+            <span>SOP Link ↗</span>
+            <button class="chevron" type="button" aria-expanded="false" aria-controls="sopDrop"
+                    onclick="toggleLinkDropdown(event, 'sopDrop')">▾</button>
+          </div>
+          <div id="sopDrop" class="link-dropdown" role="region" aria-label="SOP link">
+            <div class="copy-row">
+              <code class="raw-link" id="sopRaw">
+                https://docs.google.com/spreadsheets/d/1-WtCTPVObLauvUkp7TxoOvkN_lu6M7_LQjqdRWXhfQI/edit?gid=1303079433#gid=1303079433&fvid=1556270402
+              </code>
+              <button class="copy-btn" type="button" onclick="copyText(document.getElementById('sopRaw').textContent)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task (yellow) -->
+        <div class="link-group">
+          <div class="small-link yellow-link" role="button" tabindex="0" onclick="openTask()">
+            <span>Task Link ↗</span>
+            <button class="chevron" type="button" aria-expanded="false" aria-controls="taskDrop"
+                    onclick="toggleLinkDropdown(event, 'taskDrop')">▾</button>
+          </div>
+          <div id="taskDrop" class="link-dropdown" role="region" aria-label="Task link">
+            <div class="copy-row">
+              <code class="raw-link" id="taskRaw">
+                https://manage.happyco.com/next/b/39898/s/prop/l/99966/task/tasks/01K3KE5RTDWFMMEBR9GV8KBWKE
+              </code>
+              <button class="copy-btn" type="button" onclick="copyText(document.getElementById('taskRaw').textContent)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CC (red) -->
+        <div class="link-group">
+          <div class="small-link red-link" role="button" tabindex="0" onclick="openCC()">
+            <span>CC Link ↗</span>
+            <button class="chevron" type="button" aria-expanded="false" aria-controls="ccDrop"
+                    onclick="toggleLinkDropdown(event, 'ccDrop')">▾</button>
+          </div>
+          <div id="ccDrop" class="link-dropdown" role="region" aria-label="CC link">
+            <div class="copy-row">
+              <code class="raw-link" id="ccRaw">
+                https://stage-portal.callcomplete.com/happy-nights
+              </code>
+              <button class="copy-btn" type="button" onclick="copyText(document.getElementById('ccRaw').textContent)">Copy</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </form>
   </div>
